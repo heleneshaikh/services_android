@@ -21,6 +21,7 @@ public class DelayedMessageService extends IntentService {
         super("DelayedMessageService"); //try w something else
     }
 
+    //what happens when you click on notification
     @Override
     protected void onHandleIntent(Intent intent) {
         synchronized (this) {
@@ -36,20 +37,24 @@ public class DelayedMessageService extends IntentService {
 
     private void showText(final String text) {
         Intent intent = new Intent(this, MainActivity.class);
+
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(intent);
+
         PendingIntent pendingIntent =
                 stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
         Notification notification = new Notification.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(getString(R.string.app_name))
                 .setAutoCancel(true)
                 .setPriority(Notification.PRIORITY_MAX)
-                .setDefaults(Notification.DEFAULT_VIBRATE)
+                .setDefaults(Notification.DEFAULT_SOUND)
                 .setContentIntent(pendingIntent)
                 .setContentText(text)
                 .build();
+
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFICATION_ID, notification);
 

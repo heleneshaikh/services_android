@@ -19,4 +19,10 @@ public class MainActivity extends Activity {
         intent.putExtra(DelayedMessageService.EXTRA_MESSAGE, getResources().getString(R.string.button_response));
         startService(intent);
     }
+
+    public void onClickPlay(View view) {
+        Intent intent = new Intent(this, MusicService.class);
+        startService(intent);
+    }
+
 }
